@@ -16,7 +16,7 @@ from Controllers.searchController import SearchWindowController
 class MainWindowController():
 
     def __init__(self):
-        pass
+        self.currentData = []
 
     def getRecords(self):
         dbCursor = connection.cursor()

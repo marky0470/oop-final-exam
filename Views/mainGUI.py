@@ -1,4 +1,5 @@
 
+from turtle import back
 from Controllers.mainController import MainWindowController
 from widgets.KButton import KButton
 from widgets.KTable import KTable
@@ -118,30 +119,36 @@ class MainGUI():
         self.studentAccounts = self.controller.getRecords()
         self.tableHeaders = Account(None).getColumns()
 
-        self.tableWrapper = tkinter.Frame(self.mainWindow, height=self.mainWindow.winfo_height() * 0.8)
+        self.tableWrapper = tkinter.Frame(
+            self.mainWindow,
+            height=self.mainWindow.winfo_height() * 0.8,
+            background="white"
+        )
         self.tableCanvas = tkinter.Canvas(
             self.tableWrapper,
             height=self.mainWindow.winfo_height() * 0.8,
-            width=self.mainWindow.winfo_width() * 0.96 
+            width=self.mainWindow.winfo_width() * 0.96,
+            bd=0,
+            highlightthickness=0 
         )
         self.tableScrollbar = tkinter.Scrollbar(self.tableWrapper, command=self.tableCanvas.yview)
         self.tableCanvas.configure(yscrollcommand=self.tableScrollbar.set)
 
-        self.interior = tkinter.Frame(self.tableCanvas, height=self.mainWindow.winfo_height() * 0.8, background='red')
-        self.tableCanvas.create_window(0, 0, window=self.interior, anchor='nw')
+        self.interior = tkinter.Frame(self.tableCanvas, height=self.mainWindow.winfo_height() * 0.8)
+        self.tableCanvas.create_window(0, 0, window=self.interior, anchor=tkinter.NW)
 
         self.dataTable = KTable(
-            self.tableCanvas,
+            self.interior,
             headers=self.tableHeaders,
             data=self.studentAccounts,
             height=self.mainWindow.winfo_height() * 0.8,
-            width=self.mainWindow.winfo_width() * 0.99,
+            width=self.mainWindow.winfo_width(),
+            currentData=self.controller.currentData
         )
 
-        self.tableCanvas.bind('<Configure>', lambda e: self.tableCanvas.configure(scrollregion=self.tableCanvas.bbox('rect')))
+        self.tableCanvas.bind('<Configure>', lambda e: self.tableCanvas.configure(scrollregion=self.tableCanvas.bbox('all')))
 
-        #self.dataTable.grid(column=0, row=3, columnspan=6, padx=10, sticky=tkinter.NSEW)
         self.dataTable.pack()
-        self.tableCanvas.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+        self.tableCanvas.pack(side=tkinter.LEFT, fill=tkinter.BOTH, expand='True')
         self.tableScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
         self.tableWrapper.grid(column=0, row=3, columnspan=6, padx=10, sticky=tkinter.NSEW)
