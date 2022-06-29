@@ -72,6 +72,7 @@ class MainGUI():
             row=1,
             height=self.buttonHeight,
             width=self.buttonWidth,
+            onClick=self.controller.openAddWindow
         )
         self.editButton = KButton(
             self.mainWindow,
@@ -82,6 +83,7 @@ class MainGUI():
             row=1,
             height=self.buttonHeight,
             width=self.buttonWidth,
+            onClick=self.controller.openEditWindow
         )
         self.deleteButton = KButton(
             self.mainWindow,
@@ -92,6 +94,7 @@ class MainGUI():
             row=1,
             height=self.buttonHeight,
             width=self.buttonWidth,
+            onClick=self.controller.openDeleteWindow
         )
         self.searchButton = KButton(
             self.mainWindow,
@@ -102,6 +105,7 @@ class MainGUI():
             row=1,
             height=self.buttonHeight,
             width=self.buttonWidth,
+            onClick=self.controller.openSearchWindow
         )
 
         self.addButton.grid(column=1, row=1, padx=10, pady=10, sticky=tkinter.EW)
