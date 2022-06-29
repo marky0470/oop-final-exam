@@ -46,6 +46,7 @@ class KButton(ttk.Frame):
             self,
             height=self['height'],
             width=self['width'],
+            background="white",
             bd=0,
             highlightthickness=0,
             cursor="hand2",
