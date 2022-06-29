@@ -8,15 +8,13 @@ class KTable(ttk.Frame):
         super().__init__(parent, *args, **kwargs)
         self.headers = headers
         self.data = data
-        self.canvas = tkinter.Canvas(self, height=self['height'], width=self['width'], scrollregion=(0,0, 1000,1000))
         self.draw()
-        self.canvas.pack()
 
     def drawHeader(self):
         self.headerCanvas = tkinter.Canvas(
-            self.canvas,
+            self,
             height=self['height'] * 0.1,
-            width=self['width'] * 0.97196,
+            width=self['width'] * 0.97,
             background="#e3e3e3",
             bd=0,
             highlightthickness=0
@@ -37,9 +35,9 @@ class KTable(ttk.Frame):
     def drawData(self):
         for idx, row in enumerate(self.data):
             dataCanvas = tkinter.Canvas(
-                self.canvas,
+                self,
                 height=self['height'] * 0.1,
-                width=self['width'] * 0.97196,
+                width=self['width'] * 0.97,
                 background= "white" if idx % 2 == 0 else "#f0f0f0",
                 bd=0,
                 highlightthickness=0
@@ -57,14 +55,14 @@ class KTable(ttk.Frame):
             #dataCanvas.grid(column=0, row=idx+1, sticky=tkinter.EW)
             dataCanvas.pack()
 
-    def createScrollbar(self):
-        self.scrollbar = tkinter.Scrollbar(self, orient=tkinter.VERTICAL, command=self.canvas.yview)
-        self.scrollbar.pack(side="right", fill="y")
+    # def createScrollbar(self):
+    #     self.scrollbar = tkinter.Scrollbar(self, orient=tkinter.VERTICAL, command=self.canvas.yview)
+    #     self.scrollbar.pack(side="right", fill="y")
 
-        self.canvas.configure(yscrollcommand=self.scrollbar.set)
+    #     self.canvas.configure(yscrollcommand=self.scrollbar.set)
 
     def draw(self):
         self.drawHeader()
         self.drawData()
-        self.createScrollbar()
+        #self.createScrollbar()
 

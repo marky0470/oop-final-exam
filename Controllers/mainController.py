@@ -1,4 +1,5 @@
 
+import tkinter
 from connection import connection
 
 from Views.editGUI import EditGUI
@@ -25,14 +26,18 @@ class MainWindowController():
         #studentAccounts = list(map(lambda x : Account(x), sqlResult))
         return sqlResult
     
-    def openEditWindow(self):
+    def openEditWindow(self, mainWindow : tkinter.Tk):
+        mainWindow.destroy()
         EditGUI(EditWindowController())
 
-    def openAddWindow(self):
+    def openAddWindow(self, mainWindow : tkinter.Tk):
+        mainWindow.destroy()
         AddGUI(AddWindowController())
 
-    def openDeleteWindow(self):
+    def openDeleteWindow(self, mainWindow : tkinter.Tk):
+        mainWindow.destroy()
         DeleteGUI(DeleteWindowController())
     
-    def openSearchWindow(self):
+    def openSearchWindow(self, mainWindow : tkinter.Tk):
+        mainWindow.destroy()
         SearchGUI(SearchWindowController())

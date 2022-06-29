@@ -15,8 +15,8 @@ class MainGUI():
         self.setup()
         self.mainWindow.update()
 
-        self.buttonWidth = self.mainWindow.winfo_width() * 0.15
-        self.buttonHeight = self.mainWindow.winfo_height() * 0.08
+        self.buttonWidth = self.mainWindow.winfo_width() * 0.13
+        self.buttonHeight = self.mainWindow.winfo_height() * 0.07
         self.buttonColor = "#e3e3e3"
         self.buttonAccentColor = "#d5d1e0"
 
@@ -30,8 +30,9 @@ class MainGUI():
     def setup(self):
         self.mainWindow = tkinter.Tk()
         self.mainWindow.title("CRUD Main Window")
-        self.mainWindow.geometry("940x480")
+        self.mainWindow.geometry("1000x520")
         self.mainWindow.configure(background="white")
+        self.mainWindow.resizable(False, False)
 
     def windowPadding(self):
         self.mainWindow.grid_columnconfigure(4, weight=1)
@@ -72,7 +73,7 @@ class MainGUI():
             row=1,
             height=self.buttonHeight,
             width=self.buttonWidth,
-            onClick=self.controller.openAddWindow
+            onClick=lambda : self.controller.openAddWindow(self.mainWindow)
         )
         self.editButton = KButton(
             self.mainWindow,
@@ -83,7 +84,7 @@ class MainGUI():
             row=1,
             height=self.buttonHeight,
             width=self.buttonWidth,
-            onClick=self.controller.openEditWindow
+            onClick=lambda : self.controller.openEditWindow(self.mainWindow)
         )
         self.deleteButton = KButton(
             self.mainWindow,
@@ -94,7 +95,7 @@ class MainGUI():
             row=1,
             height=self.buttonHeight,
             width=self.buttonWidth,
-            onClick=self.controller.openDeleteWindow
+            onClick=lambda : self.controller.openDeleteWindow(self.mainWindow)
         )
         self.searchButton = KButton(
             self.mainWindow,
@@ -105,7 +106,7 @@ class MainGUI():
             row=1,
             height=self.buttonHeight,
             width=self.buttonWidth,
-            onClick=self.controller.openSearchWindow
+            onClick=lambda : self.controller.openSearchWindow(self.mainWindow)
         )
 
         self.addButton.grid(column=1, row=1, padx=10, pady=10, sticky=tkinter.EW)
@@ -117,12 +118,30 @@ class MainGUI():
         self.studentAccounts = self.controller.getRecords()
         self.tableHeaders = Account(None).getColumns()
 
+        self.tableWrapper = tkinter.Frame(self.mainWindow, height=self.mainWindow.winfo_height() * 0.8)
+        self.tableCanvas = tkinter.Canvas(
+            self.tableWrapper,
+            height=self.mainWindow.winfo_height() * 0.8,
+            width=self.mainWindow.winfo_width() * 0.96 
+        )
+        self.tableScrollbar = tkinter.Scrollbar(self.tableWrapper, command=self.tableCanvas.yview)
+        self.tableCanvas.configure(yscrollcommand=self.tableScrollbar.set)
+
+        self.interior = tkinter.Frame(self.tableCanvas, height=self.mainWindow.winfo_height() * 0.8, background='red')
+        self.tableCanvas.create_window(0, 0, window=self.interior, anchor='nw')
+
         self.dataTable = KTable(
-            self.mainWindow,
+            self.tableCanvas,
             headers=self.tableHeaders,
             data=self.studentAccounts,
             height=self.mainWindow.winfo_height() * 0.8,
             width=self.mainWindow.winfo_width() * 0.99,
         )
 
-        self.dataTable.grid(column=1, row=3, columnspan=6, padx=10, sticky=tkinter.NSEW)
+        self.tableCanvas.bind('<Configure>', lambda e: self.tableCanvas.configure(scrollregion=self.tableCanvas.bbox('rect')))
+
+        #self.dataTable.grid(column=0, row=3, columnspan=6, padx=10, sticky=tkinter.NSEW)
+        self.dataTable.pack()
+        self.tableCanvas.pack(side=tkinter.LEFT, fill=tkinter.BOTH)
+        self.tableScrollbar.pack(side=tkinter.RIGHT, fill=tkinter.Y)
+        self.tableWrapper.grid(column=0, row=3, columnspan=6, padx=10, sticky=tkinter.NSEW)
