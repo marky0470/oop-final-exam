@@ -1,6 +1,7 @@
 
 from turtle import back
 from Controllers.mainController import MainWindowController
+from constants import Constants
 from widgets.KButton import KButton
 from widgets.KTable import KTable
 from Model.account import Account
@@ -18,8 +19,6 @@ class MainGUI():
 
         self.buttonWidth = self.mainWindow.winfo_width() * 0.13
         self.buttonHeight = self.mainWindow.winfo_height() * 0.07
-        self.buttonColor = "#e3e3e3"
-        self.buttonAccentColor = "#d5d1e0"
 
         self.windowPadding()
 
@@ -32,7 +31,7 @@ class MainGUI():
         self.mainWindow = tkinter.Tk()
         self.mainWindow.title("CRUD Main Window")
         self.mainWindow.geometry("1000x520")
-        self.mainWindow.configure(background="white")
+        self.mainWindow.configure(background=Constants().windowBackgroundColor)
         self.mainWindow.resizable(False, False)
 
     def windowPadding(self):
@@ -42,7 +41,7 @@ class MainGUI():
         self.header = tkinter.Frame(
             self.mainWindow,
             height=20,
-            background="white",
+            background=Constants().windowBackgroundColor,
             width=self.mainWindow.winfo_width()
         )
         self.headerText = tkinter.Label(
@@ -50,7 +49,7 @@ class MainGUI():
             text="Basic CRUD Application - Final Examination",
             font=("Verdana", 12),
             foreground="black",
-            background="white",
+            background=Constants().windowBackgroundColor,
         )
         self.headerTextSecond = tkinter.Label(
             self.mainWindow,
@@ -58,7 +57,7 @@ class MainGUI():
             text="Group 9",
             font=("Verdana", 12),
             foreground="black",
-            background="white",
+            background=Constants().windowBackgroundColor,
         )
         self.headerText.grid(column=0, row=0, padx=10, pady=5, sticky=tkinter.EW)
         self.headerTextSecond.grid(column=5, row=0, padx=10, sticky=tkinter.EW)
@@ -68,8 +67,8 @@ class MainGUI():
         self.addButton = KButton(
             self.mainWindow,
             text="Add",
-            background=self.buttonColor,
-            onHoverBackground=self.buttonAccentColor,
+            background=Constants().buttonColor,
+            onHoverBackground=Constants().buttonAccentColor,
             column=1,
             row=1,
             height=self.buttonHeight,
@@ -79,8 +78,8 @@ class MainGUI():
         self.editButton = KButton(
             self.mainWindow,
             text="Edit",
-            background=self.buttonColor,
-            onHoverBackground=self.buttonAccentColor,
+            background=Constants().buttonColor,
+            onHoverBackground=Constants().buttonAccentColor,
             column=2,
             row=1,
             height=self.buttonHeight,
@@ -90,8 +89,8 @@ class MainGUI():
         self.deleteButton = KButton(
             self.mainWindow,
             text="Delete",
-            background=self.buttonColor,
-            onHoverBackground=self.buttonAccentColor,
+            background=Constants().buttonColor,
+            onHoverBackground=Constants().buttonAccentColor,
             column=3,
             row=1,
             height=self.buttonHeight,
@@ -101,8 +100,8 @@ class MainGUI():
         self.searchButton = KButton(
             self.mainWindow,
             text="Search",
-            background=self.buttonColor,
-            onHoverBackground=self.buttonAccentColor,
+            background=Constants().buttonColor,
+            onHoverBackground=Constants().buttonAccentColor,
             column=4,
             row=1,
             height=self.buttonHeight,

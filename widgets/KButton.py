@@ -69,13 +69,13 @@ class KButton(ttk.Frame):
             x2=self['width'],
             y1=0,
             y2=self['height'],
-            radius=18,
+            radius=10,
             fill=self.background,
             tags=("Frame"),
         )
         #self.canvas.itemconfig("Frame", fill=self.background)
 
-        self.canvas.create_text(self['width'] * 0.5, self['height'] * 0.5, text=self.text, fill='black')
+        self.canvas.create_text(self['width'] * 0.5, self['height'] * 0.5, text=self.text, fill='white')
         self.canvas.grid(column=self.column, row=self.row, columnspan=self.columnspan, rowspan=self.rowspan)
 
     def __str__(self):
