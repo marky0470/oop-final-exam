@@ -20,7 +20,7 @@ class MainWindowController():
 
     def getRecords(self):
         dbCursor = connection.cursor()
-        dbCursor.execute("SELECT * FROM students")
+        dbCursor.execute("SELECT * FROM user")
         sqlResult = dbCursor.fetchall()
 
         #studentAccounts = list(map(lambda x : Account(x), sqlResult))
