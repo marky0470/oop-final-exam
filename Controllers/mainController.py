@@ -1,5 +1,6 @@
 
 import tkinter
+from Model.account import Account
 from connection import connection
 
 from Views.editGUI import EditGUI
@@ -16,7 +17,7 @@ from Controllers.searchController import SearchWindowController
 class MainWindowController():
 
     def __init__(self):
-        self.currentData = []
+        self.currentData : Account = None
 
     def getRecords(self):
         dbCursor = connection.cursor()

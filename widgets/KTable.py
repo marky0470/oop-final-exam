@@ -2,6 +2,8 @@
 import tkinter
 from tkinter import ttk
 
+from Model.account import Account
+
 class KTable(ttk.Frame):
 
     def __init__(self, parent, headers, data, currentData, *args, **kwargs):
@@ -11,7 +13,7 @@ class KTable(ttk.Frame):
         self.headers = headers
         self.data = data
         self.draw()
-        self.configureRowInteractivity()
+        #self.configureRowInteractivity()
 
     def drawHeader(self):
         self.headerCanvas = tkinter.Canvas(
@@ -35,13 +37,14 @@ class KTable(ttk.Frame):
         #self.headerCanvas.grid(column=0, row=0, sticky=tkinter.EW)
         self.headerCanvas.pack()
     
-    def setCurrentData(self, data, idx):
-        self.currentData = data
-        self.rows[idx].configure(background='red')
+    def setCurrentData(self, event, row, widget : tkinter.Canvas):
+        self.currentData = Account(list(row))
+        widget.configure(background='#b8ecff')
 
-    def configureRowInteractivity(self):
-        for idx, row in enumerate(self.rows):
-            row.bind("<Button-1>", lambda s : self.setCurrentData(row, idx))
+        for idx, canvas in enumerate(self.rows):
+            if canvas == widget:
+                continue
+            canvas.configure(background="white" if idx % 2 == 0 else "#f0f0f0")
 
     def drawData(self):
         for idx, row in enumerate(self.data):
@@ -53,6 +56,8 @@ class KTable(ttk.Frame):
                 bd=0,
                 highlightthickness=0
             )
+
+            dataCanvas.bind('<Button-1>', lambda event, row=row, widget=dataCanvas : self.setCurrentData(event, row, widget))
 
             for jdx, val in enumerate(row):
                 dataCanvas.create_text(
