@@ -10,3 +10,5 @@ class Constants():
         self.tableSelectColor = "#BCDEFA"
         self.tableHeaderColor = "#1C3D5A"
         self.windowBackgroundColor = "#F1F5F8"
+        self.windowBackgroundAccentColor = "#F1F5F8"
+        self.entryBackgroundColor = "white"

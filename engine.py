@@ -16,7 +16,6 @@ class DrawingEngine():
         canvas.create_line(x,   y  , x,     y+h  , fill=fill, width=2)
         canvas.create_line(x+w, y  , x+w,   y+h  , fill=fill)
 
-
     def drawRoundedRectangle(self, canvas, x, y, w, h, c):
         canvas.create_arc(x,   y,   x+2*c,   y+2*c,   start= 90, extent=90, style="arc")
         canvas.create_arc(x+w-2*c, y+h-2*c, x+w, y+h, start=270, extent=90, style="arc")
