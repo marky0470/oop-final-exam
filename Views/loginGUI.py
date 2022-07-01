@@ -1,7 +1,5 @@
 
-from turtle import onclick
 
-from setuptools import Command
 from Controllers.loginController import LoginWindowController
 from widgets.KEntry import KEntry
 from widgets.KButton import KButton
@@ -108,7 +106,7 @@ class LoginGUI():
             text='Login',
             background=Constants().buttonColor,
             onHoverBackground=Constants().buttonAccentColor,
-            onClick=lambda : self.controller.login(self.emailTextVar.get(), self.passwordTextVar.get(), self.loginWindow),
+            onClick=lambda : self.controller.login(self.emailTextVar.get(), self.passwordTextVar.get(), self),
             column=0,
             row=4,
             height=self.loginWindow.winfo_height() * 0.08, 

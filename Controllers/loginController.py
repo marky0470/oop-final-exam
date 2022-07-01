@@ -13,7 +13,7 @@ class LoginWindowController():
     def __init__(self):
         self.dbCursor = connection.cursor()
     
-    def login(self, email : str, password : str, window: tkinter.Tk):
+    def login(self, email : str, password : str, window):
         sql = f"SELECT * FROM user WHERE EmailAdd='{email.strip()}'"
         self.dbCursor.execute(sql)
         result = self.dbCursor.fetchone()
@@ -36,7 +36,7 @@ class LoginWindowController():
         localStorage = open('current.txt', 'w')
         localStorage.write('True')
         localStorage.close()
-        window.destroy()
-        MainGUI(MainWindowController())
+        window.loginWindow.destroy()
+        MainGUI(MainWindowController(), loginGUI=window, loginController=LoginWindowController)
 
 
