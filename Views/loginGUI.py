@@ -80,6 +80,7 @@ class LoginGUI():
             background=Constants().entryBackgroundColor,
             textvariable=self.emailTextVar,
             type='text',
+            borderColor=Constants().entryBorderColor
         )
         self.passwordLabel = tkinter.Label(
             self.passwordContainer,
@@ -94,6 +95,7 @@ class LoginGUI():
             background=Constants().entryBackgroundColor,
             textvariable=self.passwordTextVar,
             type='password',
+            borderColor=Constants().entryBorderColor
         )
 
         self.emailLabel.grid(column=0, row=1, padx=35, sticky=tkinter.W)
@@ -131,7 +133,7 @@ class LoginGUI():
             height=self.loginWindow.winfo_height(),
             width=self.loginWindow.winfo_width() * 0.65
         )
-        self.imageFile = tkinter.PhotoImage(file='bg.png')
+        self.imageFile = tkinter.PhotoImage(file='./bg.png')
         self.image = tkinter.Label(
             self.imageContainer,
             background=Constants().windowBackgroundColor,

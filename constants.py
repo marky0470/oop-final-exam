@@ -12,3 +12,4 @@ class Constants():
         self.windowBackgroundColor = "#F1F5F8"
         self.windowBackgroundAccentColor = "#F1F5F8"
         self.entryBackgroundColor = "white"
+        self.entryBorderColor = "#e6e6e6"

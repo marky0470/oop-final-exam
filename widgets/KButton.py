@@ -6,7 +6,7 @@ from engine import DrawingEngine
 
 class KButton(ttk.Frame):
 
-    def __init__(self, parent, text, background, onHoverBackground, column, row, onClick=None,columnspan=1, rowspan=1, *args, **kwargs):
+    def __init__(self, parent, text, background, onHoverBackground, column, row, onClick=None,columnspan=1, rowspan=1, textfill='white',*args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
         self.text = text
@@ -17,6 +17,7 @@ class KButton(ttk.Frame):
         self.row = row
         self.columnspan = columnspan
         self.rowspan = rowspan
+        self.textfill = textfill
         self.cache = {}
 
         self.draw()
@@ -75,7 +76,7 @@ class KButton(ttk.Frame):
         )
         #self.canvas.itemconfig("Frame", fill=self.background)
 
-        self.canvas.create_text(self['width'] * 0.5, self['height'] * 0.5, text=self.text, fill='white')
+        self.canvas.create_text(self['width'] * 0.5, self['height'] * 0.5, text=self.text, fill=self.textfill)
         self.canvas.grid(column=self.column, row=self.row, columnspan=self.columnspan, rowspan=self.rowspan)
 
     def __str__(self):
