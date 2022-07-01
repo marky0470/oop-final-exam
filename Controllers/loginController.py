@@ -6,6 +6,7 @@ from connection import connection
 
 from Views.mainGUI import MainGUI
 from Controllers.mainController import MainWindowController
+from utils.encryption import Encryption
 
 class LoginWindowController():
 
@@ -22,7 +23,9 @@ class LoginWindowController():
             messagebox.showwarning("Login Error", "Account not Found")
             return
         
-        if resultingAccount.password != password:
+        decryptedAccountPassword = Encryption().decryptPassword(resultingAccount.password.encode()).decode()
+        
+        if decryptedAccountPassword != password:
             messagebox.showwarning("Login Error", "Incorrect Password")
             return 
 
