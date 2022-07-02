@@ -1,6 +1,6 @@
+
 from connection import connectMySQL
 from tkinter import messagebox
-import Views.addGUI
 
 class AddWindowController():
 

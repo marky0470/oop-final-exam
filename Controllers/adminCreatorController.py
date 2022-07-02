@@ -7,14 +7,15 @@ import mysqlx
 from Controllers.loginController import LoginWindowController
 from Views.loginGUI import LoginGUI
 
-from connection import connection
+from connection import connectMySQL
 from utils.encryption import Encryption
 
 
 class AdminCreatorWindowController():
 
     def __init__(self):
-        self.dbCursor = connection.cursor()
+        self.dbConnection = connectMySQL()
+        self.dbCursor = self.dbConnection.cursor()
 
     def registerAccountToDatabase(self, firstName, lastName, email, password):
         sql = f"""
@@ -24,10 +25,11 @@ class AdminCreatorWindowController():
         """
         try:
             self.dbCursor.execute(sql, (firstName, lastName, email, password))
-            connection.commit()
+            self.dbConnection.commit()
         except mysqlx.IntegrityError:
             messagebox.showerror('Registration', 'There was a problem in the registration. Please try again later.')
         finally:
+            self.dbConnection.close()
             messagebox.showinfo('Registration Success', 'Admin Account successfully created.')
     
     def inconsistentPasswords(self, password, confirm):

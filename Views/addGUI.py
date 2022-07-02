@@ -78,7 +78,8 @@ class AddGUI():
             width=self.addWindow.winfo_width() * 0.7,
             background=Constants().entryBackgroundColor,
             textvariable=self.fNameTextVar,
-            type='text'
+            type='text',
+            borderColor=Constants().entryBorderColor
         )
 
         self.addLastNameLabel = tkinter.Label(
@@ -94,7 +95,8 @@ class AddGUI():
             width=self.addWindow.winfo_width() * 0.7,
             background=Constants().entryBackgroundColor,
             textvariable=self.lNameTextVar,
-            type='text'
+            type='text',
+            borderColor=Constants().entryBorderColor
         )
 
         self.addEmailLabel = tkinter.Label(
@@ -110,7 +112,8 @@ class AddGUI():
             width=self.addWindow.winfo_width() * 0.7,
             background=Constants().entryBackgroundColor,
             textvariable=self.emailTextVar,
-            type='text'
+            type='text',
+            borderColor=Constants().entryBorderColor
         )
 
         self.addPasswordLabel = tkinter.Label(
@@ -126,7 +129,8 @@ class AddGUI():
             width=self.addWindow.winfo_width() * 0.7,
             background=Constants().entryBackgroundColor,
             textvariable=self.passwordTextVar,
-            type='password'
+            type='password',
+            borderColor=Constants().entryBorderColor
         )
 
         self.addFirstNameLabel.grid(column=0, row=1, padx=35, sticky=tkinter.W)
