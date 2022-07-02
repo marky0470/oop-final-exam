@@ -1,10 +1,12 @@
 
 import tkinter
 from tkinter.messagebox import askyesno
+from Controllers.editAdminController import EditAdminWindowController
 from Views import loginGUI
 from Controllers import loginController
 
 from Model.account import Account
+from Views.editAdminGUI import EditAdminGUI
 from connection import connectMySQL
 
 from Views.editGUI import EditGUI
@@ -75,6 +77,10 @@ class MainWindowController():
     def openAddAdminWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()
         AddAdminGUI(AddAdminWindowController())
+    
+    def openEditAdminWindow(self, mainWindow : tkinter.Tk):
+        mainWindow.destroy()
+        EditAdminGUI(EditAdminWindowController(self.loggedInAccount))
 
     def openEditWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()

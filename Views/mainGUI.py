@@ -165,7 +165,8 @@ class MainGUI():
             height=self.mainWindow.winfo_height() * 0.07,
             width=self.mainWindow.winfo_width() * 0.22,
             type='rect',
-            textfill=Constants().creamButtonTextColor
+            textfill=Constants().creamButtonTextColor,
+            onClick=lambda : self.controller.openEditAdminWindow(self.mainWindow)
         )
         self.deleteThisAccountButton = KButton(
             self.navigationFrame,
@@ -219,9 +220,9 @@ class MainGUI():
         self.contentFrame.grid(column=1, row=1, sticky=tkinter.NSEW)
 
     def setupButtons(self):
-        self.resetButton = KButton(
+        self.refreshButton = KButton(
             self.contentFrame,
-            text="Reset Data",
+            text="Refresh",
             background=Constants().whiteButtonColor,
             onHoverBackground=Constants().whiteButtonAccentColor,
             column=1,
@@ -272,7 +273,7 @@ class MainGUI():
 
         self.editButton.grid(column=2, row=0, sticky=tkinter.W)
         self.deleteButton.grid(column=3, row=0, padx=10, sticky=tkinter.W)
-        self.resetButton.grid(column=1, row=0, padx=10, sticky=tkinter.EW)
+        self.refreshButton.grid(column=1, row=0, padx=10, sticky=tkinter.EW)
         self.addButton.grid(column=5, row=0, padx=15, pady=10, sticky=tkinter.E)
 
     def setupTable(self):
