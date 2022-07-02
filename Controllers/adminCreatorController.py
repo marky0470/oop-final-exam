@@ -2,10 +2,9 @@
 import tkinter
 from tkinter import messagebox
 
-import mysqlx
 
-from Controllers.loginController import LoginWindowController
-from Views.loginGUI import LoginGUI
+from Controllers import loginController
+from Views import loginGUI
 
 from connection import connectMySQL
 from utils.encryption import Encryption
@@ -26,8 +25,6 @@ class AdminCreatorWindowController():
         try:
             self.dbCursor.execute(sql, (firstName, lastName, email, password))
             self.dbConnection.commit()
-        except mysqlx.IntegrityError:
-            messagebox.showerror('Registration', 'There was a problem in the registration. Please try again later.')
         finally:
             self.dbConnection.close()
             messagebox.showinfo('Registration Success', 'Admin Account successfully created.')
@@ -54,4 +51,4 @@ class AdminCreatorWindowController():
         encryptedPassword = Encryption().encryptPassword(password)
         self.registerAccountToDatabase(firstName, lastName, email, encryptedPassword)
         window.destroy()
-        LoginGUI(LoginWindowController())
+        loginGUI.LoginGUI(loginController.LoginWindowController())

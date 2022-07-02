@@ -1,5 +1,6 @@
 
 import tkinter
+from tkinter.messagebox import askyesno 
 from Views import loginGUI
 from Controllers import loginController
 
@@ -9,12 +10,12 @@ from connection import connectMySQL
 from Views.editGUI import EditGUI
 from Views.addGUI import AddGUI
 from Views.deleteGUI import DeleteGUI
-from Views.searchGUI import SearchGUI
+# from Views.searchGUI import SearchGUI
 
 from Controllers.editController import EditWindowController
 from Controllers.addController import AddWindowController
 from Controllers.deleteController import DeleteWindowController
-from Controllers.searchController import SearchWindowController
+# from Controllers.searchController import SearchWindowController
 
 class MainWindowController():
 
@@ -22,6 +23,7 @@ class MainWindowController():
         self.currentData : Account = None
         self.dbConnection = connectMySQL()
         self.dbCursor = self.dbConnection.cursor()
+        self.loggedInAccount = None
 
     def getRecords(self):
         self.dbCursor.execute("SELECT * FROM user where LastName != 'Admin'")
@@ -56,7 +58,19 @@ class MainWindowController():
         sql = f"SELECT * FROM user WHERE UserID = {int(data[1])}"
         self.dbCursor.execute(sql)
         result = self.dbCursor.fetchone()
-        return Account(result)
+        self.loggedInAccount = Account(result)
+        return self.loggedInAccount
+    
+    def deleteThisAdminAccount(self, mainGUI):
+        confirm = askyesno("Delete Admin Account", "Are you sure you want to delete this Admin Account? This is not reversible.")
+
+        if confirm:
+            sql = f"DELETE FROM user WHERE UserID = {self.loggedInAccount.userID}"
+            self.dbCursor.execute(sql)
+            self.dbConnection.commit()
+            self.dbConnection.close()
+            self.logout(mainGUI)
+            return
 
 
     def openEditWindow(self, mainWindow : tkinter.Tk):

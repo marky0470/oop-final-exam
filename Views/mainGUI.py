@@ -142,9 +142,9 @@ class MainGUI():
             type='rect',
             textfill=Constants().creamButtonTextColor
         )
-        self.editAccountButton = KButton(
+        self.createAdminButton = KButton(
             self.navigationFrame,
-            text="Edit Admin Account",
+            text="Create New Admin",
             background=Constants().whiteButtonColor,
             onHoverBackground=Constants().creamButtonColor,
             column=0,
@@ -154,13 +154,38 @@ class MainGUI():
             type='rect',
             textfill=Constants().creamButtonTextColor
         )
+        self.editAccountButton = KButton(
+            self.navigationFrame,
+            text="Edit Admin Account",
+            background=Constants().whiteButtonColor,
+            onHoverBackground=Constants().creamButtonColor,
+            column=0,
+            row=3,
+            height=self.mainWindow.winfo_height() * 0.07,
+            width=self.mainWindow.winfo_width() * 0.22,
+            type='rect',
+            textfill=Constants().creamButtonTextColor
+        )
+        self.deleteThisAccountButton = KButton(
+            self.navigationFrame,
+            text="Delete Admin Account",
+            background=Constants().whiteButtonColor,
+            onHoverBackground=Constants().creamButtonColor,
+            column=0,
+            row=4,
+            height=self.mainWindow.winfo_height() * 0.07,
+            width=self.mainWindow.winfo_width() * 0.22,
+            type='rect',
+            textfill=Constants().creamButtonTextColor,
+            onClick=lambda: self.controller.deleteThisAdminAccount(self)
+        )
         self.logoutButton = KButton(
             self.navigationFrame,
             text="Logout",
             background='white',
             onHoverBackground=Constants().creamButtonColor,
             column=0,
-            row=3,
+            row=6,
             height=self.mainWindow.winfo_height() * 0.07,
             width=self.mainWindow.winfo_width() * 0.22,
             type='rect',
@@ -170,6 +195,7 @@ class MainGUI():
 
         self.emailLabel.grid(column=0, row=0, pady=20, sticky=tkinter.EW)
         self.navigationFrame.grid(column=0, row=1, sticky=tkinter.NSEW)
+        self.navigationFrame.rowconfigure(5, weight=1)
 
     def setupContent(self):
         self.contentFrame = tkinter.Frame(

@@ -10,7 +10,6 @@ from constants import Constants
 class AdminCreatorGUI():
 
     def __init__(self, controller : AdminCreatorWindowController):
-
         self.controller = controller
 
         self.setupWindow()
@@ -225,7 +224,7 @@ class AdminCreatorGUI():
             width=self.rootWindow.winfo_width() * 0.5,
             column=1,
             row=0,
-            onClick=lambda : self.controller.createAdminAccount(self.__getData(), self.rootWindow)
+            onClick=lambda : self.controller.createAdminAccount(data=self.__getData(), window=self.rootWindow)
         )
 
         self.cancelButton.grid(column=0, row=0, sticky=tkinter.W)

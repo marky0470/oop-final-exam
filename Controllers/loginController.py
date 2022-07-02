@@ -1,6 +1,5 @@
 
 from tkinter import messagebox
-import tkinter
 from Model.account import Account
 from connection import connectMySQL
 
@@ -8,11 +7,19 @@ from Views.mainGUI import MainGUI
 from Controllers.mainController import MainWindowController
 from utils.encryption import Encryption
 
+# import main
+
 class LoginWindowController():
 
     def __init__(self):
         self.dbConnection = connectMySQL()
         self.dbCursor = self.dbConnection.cursor()
+    
+    def withAdminAccount(self):
+        self.dbCursor.execute("SELECT * FROM user WHERE LastName='Admin' or LastName='admin' or LastName='ADMIN'")
+        result = self.dbCursor.fetchone()
+        return result != None
+
     
     def login(self, email : str, password : str, window):
         sql = f"SELECT * FROM user WHERE EmailAdd='{email.strip()}'"

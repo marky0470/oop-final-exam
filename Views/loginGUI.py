@@ -5,6 +5,9 @@ from widgets.KEntry import KEntry
 from widgets.KButton import KButton
 from constants import Constants
 
+from Views import adminCreatorGUI
+from Controllers import adminCreatorController
+
 import tkinter
 
 
@@ -12,6 +15,10 @@ class LoginGUI():
 
     def __init__(self, controller : LoginWindowController):
         self.controller = controller
+
+        if not self.controller.withAdminAccount():
+            adminCreatorGUI.AdminCreatorGUI(adminCreatorController.AdminCreatorWindowController())
+            return
 
         self.setupWindow()
         self.loginWindow.update()
