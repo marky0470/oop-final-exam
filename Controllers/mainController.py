@@ -1,6 +1,6 @@
 
 import tkinter
-from tkinter.messagebox import askyesno 
+from tkinter.messagebox import askyesno
 from Views import loginGUI
 from Controllers import loginController
 
@@ -10,12 +10,12 @@ from connection import connectMySQL
 from Views.editGUI import EditGUI
 from Views.addGUI import AddGUI
 from Views.deleteGUI import DeleteGUI
-# from Views.searchGUI import SearchGUI
+from Views.addAdminGUI import AddAdminGUI
 
 from Controllers.editController import EditWindowController
 from Controllers.addController import AddWindowController
 from Controllers.deleteController import DeleteWindowController
-# from Controllers.searchController import SearchWindowController
+from Controllers.addAdminController import AddAdminWindowController
 
 class MainWindowController():
 
@@ -71,6 +71,10 @@ class MainWindowController():
             self.dbConnection.close()
             self.logout(mainGUI)
             return
+
+    def openAddAdminWindow(self, mainWindow : tkinter.Tk):
+        mainWindow.destroy()
+        AddAdminGUI(AddAdminWindowController())
 
     def openEditWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()

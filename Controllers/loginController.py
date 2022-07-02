@@ -12,7 +12,7 @@ class LoginWindowController():
 
     def __init__(self):
         self.dbConnection = connectMySQL()
-        self.dbCursor = self.dbConnection.cursor()
+        self.dbCursor = self.dbConnection.cursor(buffered=True)
     
     def withAdminAccount(self):
         self.dbCursor.execute("SELECT * FROM user WHERE LastName='Admin' or LastName='admin' or LastName='ADMIN'")
@@ -45,6 +45,6 @@ class LoginWindowController():
         
         self.dbConnection.close()
         window.loginWindow.destroy()
-        MainGUI(MainWindowController(), loginGUI=window, loginController=LoginWindowController)
+        MainGUI(MainWindowController())
 
 

@@ -152,7 +152,8 @@ class MainGUI():
             height=self.mainWindow.winfo_height() * 0.07,
             width=self.mainWindow.winfo_width() * 0.22,
             type='rect',
-            textfill=Constants().creamButtonTextColor
+            textfill=Constants().creamButtonTextColor,
+            onClick=lambda : self.controller.openAddAdminWindow(self.mainWindow)
         )
         self.editAccountButton = KButton(
             self.navigationFrame,

@@ -3,21 +3,23 @@ import tkinter
 from tkinter import messagebox
 
 
-from Views import loginGUI
 from Views import mainGUI
-from Controllers import loginController
 from Controllers import mainController
 
 from connection import connectMySQL
 from utils.encryption import Encryption
 
 
-class AdminCreatorWindowController():
+class AddAdminWindowController():
 
     def __init__(self):
         self.dbConnection = connectMySQL()
         self.dbCursor = self.dbConnection.cursor()
     
+    def cancelCreation(self, window : tkinter.Tk):
+        window.destroy()
+        mainGUI.MainGUI(mainController.MainWindowController())
+
     def registerAccountToDatabase(self, firstName, lastName, email, password):
         sql = f"""
         INSERT INTO user (FirstName, LastName, EmailAdd, Password) VALUES (
@@ -29,7 +31,7 @@ class AdminCreatorWindowController():
             self.dbConnection.commit()
         finally:
             self.dbConnection.close()
-            messagebox.showinfo('Registration Success', 'Admin Account successfully created.')
+            messagebox.showinfo('Registration Success', 'Admin Account successfully created. You can now use this account to log into the App.')
     
     def inconsistentPasswords(self, password, confirm):
         print(password != confirm)
@@ -53,4 +55,4 @@ class AdminCreatorWindowController():
         encryptedPassword = Encryption().encryptPassword(password)
         self.registerAccountToDatabase(firstName, lastName, email, encryptedPassword)
         window.destroy()
-        loginGUI.LoginGUI(loginController.LoginWindowController())
+        mainGUI.MainGUI(mainController.MainWindowController())
