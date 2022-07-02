@@ -6,7 +6,7 @@ from engine import DrawingEngine
 
 class KButton(ttk.Frame):
 
-    def __init__(self, parent, text, background, onHoverBackground, column, row, onClick=None,columnspan=1, rowspan=1, *args, **kwargs):
+    def __init__(self, parent, text, background, onHoverBackground, column, row, onClick=None,columnspan=1, rowspan=1, textfill='white', type='rounded',*args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
         self.text = text
@@ -17,6 +17,8 @@ class KButton(ttk.Frame):
         self.row = row
         self.columnspan = columnspan
         self.rowspan = rowspan
+        self.textfill = textfill
+        self.type = type
         self.cache = {}
 
         self.draw()
@@ -51,31 +53,33 @@ class KButton(ttk.Frame):
             highlightthickness=0,
             cursor="hand2",
         )
-        """
-        DrawingEngine().drawRectangle(
-            canvas=self.canvas,
-            x1=0,
-            x2=self['width'],
-            y1=0,
-            y2=self['height'],
-            borderFill=self.onHoverBackground,
-            fill=self.background,
-            tags=("Frame"),
-        )
-        """
-        DrawingEngine().drawRoundedRect(
-            canvas=self.canvas,
-            x1=0,
-            x2=self['width'],
-            y1=0,
-            y2=self['height'],
-            radius=10,
-            fill=self.background,
-            tags=("Frame"),
+
+        if self.type == 'rect':
+            DrawingEngine().drawRectangle(
+                canvas=self.canvas,
+                x1=0,
+                x2=self['width'],
+                y1=0,
+                y2=self['height'],
+                borderFill=self.onHoverBackground,
+                fill=self.background,
+                tags=("Frame"),
+            )
+        
+        if self.type == 'rounded':
+            DrawingEngine().drawRoundedRect(
+                canvas=self.canvas,
+                x1=0,
+                x2=self['width'],
+                y1=0,
+                y2=self['height'],
+                radius=10,
+                fill=self.background,
+                tags=("Frame"),
         )
         #self.canvas.itemconfig("Frame", fill=self.background)
 
-        self.canvas.create_text(self['width'] * 0.5, self['height'] * 0.5, text=self.text, fill='white')
+        self.canvas.create_text(self['width'] * 0.5, self['height'] * 0.5, text=self.text, fill=self.textfill)
         self.canvas.grid(column=self.column, row=self.row, columnspan=self.columnspan, rowspan=self.rowspan)
 
     def __str__(self):

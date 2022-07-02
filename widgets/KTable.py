@@ -18,20 +18,22 @@ class KTable(ttk.Frame):
     def drawHeader(self):
         self.headerCanvas = tkinter.Canvas(
             self,
-            height=self['height'] * 0.1,
+            height=self['height'] * 0.09,
             width=self['width'] * 0.97,
-            background=Constants().tableHeaderColor,
+            background="white",
             bd=0,
             highlightthickness=0
         )
         self.headerCanvas.bind("<Button-1>", lambda x: print("click"))
 
         for idx, val in enumerate(self.headers):
+            if idx == 4: continue
             self.headerCanvas.create_text(
-                self['width'] - ((self['width'] // 6) * (5-idx)),
-                self['height'] *0.1 * 0.5,
+                self['width'] - ((self['width'] // 5) * (4.4-idx)),
+                self['height'] *0.1 * 0.4,
                 text=val,
-                fill="white",
+                fill=Constants().buttonAccentColor,
+                font=("Century Gothic Bold", 11)
             )
 
         self.headerCanvas.pack()
@@ -40,11 +42,11 @@ class KTable(ttk.Frame):
         for idx, canvas in enumerate(self.rows):
             if canvas == widget:
                 continue
-            canvas.configure(background=Constants().oddRowColor if idx % 2 == 0 else Constants().evenRowColor)
+            canvas.configure(background=Constants().evenRowColor if idx % 2 == 0 else Constants().oddRowColor)
     
     def setCurrentData(self, event, row, widget : tkinter.Canvas):
         self.currentData = Account(list(row))
-        widget.configure(background=Constants().tableSelectColor)
+        widget.configure(background=Constants().creamButtonAccentColor)
 
         self.__manageDataWidgetsBackground(widget)
 
@@ -52,9 +54,9 @@ class KTable(ttk.Frame):
         for idx, row in enumerate(self.data):
             dataCanvas = tkinter.Canvas(
                 self,
-                height=self['height'] * 0.1,
+                height=self['height'] * 0.07,
                 width=self['width'] * 0.97,
-                background=Constants().oddRowColor if idx % 2 == 0 else Constants().evenRowColor,
+                background=Constants().evenRowColor if idx % 2 == 0 else Constants().oddRowColor,
                 bd=0,
                 highlightthickness=0
             )
@@ -62,9 +64,10 @@ class KTable(ttk.Frame):
             dataCanvas.bind('<Button-1>', lambda event, row=row, widget=dataCanvas : self.setCurrentData(event, row, widget))
 
             for jdx, val in enumerate(row):
+                if jdx == 4: continue
                 dataCanvas.create_text(
-                    self['width'] - ((self['width'] // 6) * (5-jdx)),
-                    self['height'] *0.1 * 0.5,
+                    self['width'] - ((self['width'] // 5) * (4.4-jdx)),
+                    self['height'] * 0.1 * 0.3,
                     text=val,
                     fill="black",
                 )

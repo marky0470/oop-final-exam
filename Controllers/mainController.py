@@ -24,7 +24,7 @@ class MainWindowController():
     def getRecords(self):
         dbConnection = connectMySQL()
         dbCursor = dbConnection.cursor()
-        dbCursor.execute("SELECT * FROM user")
+        dbCursor.execute("SELECT * FROM user where LastName != 'Admin'")
         sqlResult = dbCursor.fetchall()
 
         #studentAccounts = list(map(lambda x : Account(x), sqlResult))
@@ -45,3 +45,9 @@ class MainWindowController():
     def openSearchWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()
         SearchGUI(SearchWindowController())
+    
+    def logout(self, mainGUI):
+        localStorage = open('current.txt', 'w')
+        localStorage.write('False')
+        localStorage.close()
+        mainGUI.mainWindow.destroy()

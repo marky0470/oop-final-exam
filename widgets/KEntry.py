@@ -7,12 +7,14 @@ from engine import DrawingEngine
 
 class KEntry(tkinter.Frame):
 
-    def __init__(self, parent, background, textvariable, type, *args, **kwargs):
+    def __init__(self, parent, background, textvariable, type, state='normal', borderColor='gray', *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
         self.background = background
         self.textvariable = textvariable
         self.type = type
+        self.state = state
+        self.border = borderColor
 
         self.draw()
     
@@ -32,6 +34,7 @@ class KEntry(tkinter.Frame):
             textvariable=self.textvariable,
             relief=tkinter.FLAT,
             show= "*" if self.type == 'password' else None,
+            state=self.state
         )
         DrawingEngine().drawRoundedRect(
             self.canvas,
@@ -40,15 +43,16 @@ class KEntry(tkinter.Frame):
             x2=self['width'],
             y2=self['height'],
             radius=10,
-            fill=self.background
+            fill=self.background if self.state != 'disabled' else '#F0F0F0'
         )
-        # DrawingEngine().drawRoundedRectangle(
-        #     self.canvas, 
-        #     x=0,
-        #     y=0,
-        #     w=self['width'],
-        #     h=self['height'],
-        #     c=5,
-        # )
+        DrawingEngine().drawRoundedRectangle(
+            self.canvas, 
+            x=0,
+            y=0,
+            w=self['width'] -1,
+            h=self['height'] - 1,
+            c=5,
+            fill=self.border,
+        )
         self.entry.grid(column=0, row=0, padx=10, pady=5, sticky=tkinter.NSEW)
         self.canvas.grid(column=0, row=0, sticky=tkinter.NSEW)
