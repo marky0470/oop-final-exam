@@ -39,7 +39,7 @@ class MainGUI():
         self.mainWindow.resizable(False, False)
     
     def __searchButtonCallback(self):
-        results = self.controller.searchUser(self.searchTextVar.get())
+        results = self.controller.searchUser(self.searchTextVar)
         self.dataTable.data = results
         self.dataTable.redraw()
     

@@ -29,7 +29,8 @@ class MainWindowController():
 
         return sqlResult
     
-    def searchUser(self, searchValue):
+    def searchUser(self, searchTextVar):
+        searchValue = searchTextVar.get()
         sql = f"""
             SELECT * FROM user 
             WHERE (
@@ -45,6 +46,7 @@ class MainWindowController():
         """
         self.dbCursor.execute(sql)
         results = self.dbCursor.fetchall()
+        searchTextVar.set("")
         
         return results
 
