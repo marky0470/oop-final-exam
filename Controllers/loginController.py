@@ -7,7 +7,6 @@ from Views.mainGUI import MainGUI
 from Controllers.mainController import MainWindowController
 from utils.encryption import Encryption
 
-# import main
 
 class LoginWindowController():
 
@@ -20,7 +19,6 @@ class LoginWindowController():
         result = self.dbCursor.fetchone()
         return result != None
 
-    
     def login(self, email : str, password : str, window):
         sql = f"SELECT * FROM user WHERE EmailAdd='{email.strip()}'"
         self.dbCursor.execute(sql)

@@ -72,7 +72,6 @@ class MainWindowController():
             self.logout(mainGUI)
             return
 
-
     def openEditWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()
         EditGUI(EditWindowController())
