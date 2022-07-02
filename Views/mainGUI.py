@@ -1,6 +1,4 @@
 
-from re import M
-from turtle import width
 from Controllers.mainController import MainWindowController
 from constants import Constants
 from widgets.KButton import KButton
@@ -17,6 +15,7 @@ class MainGUI():
         self.controller = controller
         self.loginGUI = loginGUI
         self.loginController= loginController
+        self.loggedInAccount = self.controller.getLoggedInAccount()
 
         self.setup()
         self.mainWindow.update()
@@ -64,13 +63,13 @@ class MainGUI():
             background='white'
         )
 
-        self.headerTextTwo = tkinter.Label(
-            self.headerFrame,
-            text='Group 9',
-            font=('Century Gothic Bold', 14),
-            foreground=Constants().buttonColor,
-            background='white'
-        )
+        # self.headerTextTwo = tkinter.Label(
+        #     self.headerFrame,
+        #     text='Group 9',
+        #     font=('Century Gothic Bold', 14),
+        #     foreground=Constants().buttonColor,
+        #     background='white'
+        # )
 
         self.searchContainer = tkinter.Frame(
             self.headerFrame,
@@ -103,16 +102,16 @@ class MainGUI():
         )
 
         self.headerTextOne.grid(column=0, row=0, pady=10, padx=15, sticky=tkinter.W)
-        self.headerTextTwo.grid(column=4, row=0, pady=10, padx=15, sticky=tkinter.E)
+        # self.headerTextTwo.grid(column=4, row=0, pady=10, padx=15, sticky=tkinter.E)
         
         self.searchContainer.rowconfigure(0, weight=1)
         self.searchContainer.rowconfigure(2, weight=1)
         self.searchEntry.grid(column=0, row=1, sticky=tkinter.NSEW)
-        self.searchButton.grid(column=1, row=1, padx=10, sticky=tkinter.NSEW)
+        self.searchButton.grid(column=1, row=1, padx=15, sticky=tkinter.NSEW)
         self.searchContainer.grid(column=2, row=0, sticky=tkinter.NSEW)
 
         self.headerFrame.columnconfigure(1, weight=1)
-        self.headerFrame.columnconfigure(3, weight=1)
+        self.headerFrame.columnconfigure(1, weight=1)
 
         self.headerFrame.grid(column=0, row=0, columnspan=2, sticky=tkinter.NSEW)
     
@@ -124,6 +123,13 @@ class MainGUI():
             width=self.mainWindow.winfo_width() * 0.22
         )
         self.navigationFrame.update()
+        self.emailLabel = tkinter.Label(
+            self.navigationFrame,
+            text=self.loggedInAccount.emailAddress,
+            background='white',
+            font=(Constants().labelFont, 11),
+            foreground=Constants().creamButtonTextColor
+        )
         self.homeButton = KButton(
             self.navigationFrame,
             text="Home",
@@ -136,13 +142,25 @@ class MainGUI():
             type='rect',
             textfill=Constants().creamButtonTextColor
         )
+        self.editAccountButton = KButton(
+            self.navigationFrame,
+            text="Edit Admin Account",
+            background=Constants().whiteButtonColor,
+            onHoverBackground=Constants().creamButtonColor,
+            column=0,
+            row=2,
+            height=self.mainWindow.winfo_height() * 0.07,
+            width=self.mainWindow.winfo_width() * 0.22,
+            type='rect',
+            textfill=Constants().creamButtonTextColor
+        )
         self.logoutButton = KButton(
             self.navigationFrame,
             text="Logout",
             background='white',
             onHoverBackground=Constants().creamButtonColor,
             column=0,
-            row=2,
+            row=3,
             height=self.mainWindow.winfo_height() * 0.07,
             width=self.mainWindow.winfo_width() * 0.22,
             type='rect',
@@ -150,6 +168,7 @@ class MainGUI():
             onClick=lambda : self.controller.logout(self)
         )
 
+        self.emailLabel.grid(column=0, row=0, pady=20, sticky=tkinter.EW)
         self.navigationFrame.grid(column=0, row=1, sticky=tkinter.NSEW)
 
     def setupContent(self):

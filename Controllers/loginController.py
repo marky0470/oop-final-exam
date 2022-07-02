@@ -35,7 +35,7 @@ class LoginWindowController():
             return
 
         localStorage = open('current.txt', 'w')
-        localStorage.write('True')
+        localStorage.write(f'True {resultingAccount.userID}')
         localStorage.close()
         
         self.dbConnection.close()

@@ -49,6 +49,15 @@ class MainWindowController():
         searchTextVar.set("")
         
         return results
+    
+    def getLoggedInAccount(self) -> Account:
+        localStorage = open('current.txt', 'r')
+        data = localStorage.read().split(' ')
+        sql = f"SELECT * FROM user WHERE UserID = {int(data[1])}"
+        self.dbCursor.execute(sql)
+        result = self.dbCursor.fetchone()
+        return Account(result)
+
 
     def openEditWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()
@@ -61,10 +70,6 @@ class MainWindowController():
     def openDeleteWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()
         DeleteGUI(DeleteWindowController())
-    
-    def openSearchWindow(self, mainWindow : tkinter.Tk):
-        mainWindow.destroy()
-        SearchGUI(SearchWindowController())
     
     def logout(self, mainGUI):
         localStorage = open('current.txt', 'w')
