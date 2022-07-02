@@ -29,9 +29,7 @@ class LoginWindowController():
             messagebox.showwarning("Login Error", "Account not Found")
             return
         
-        decryptedAccountPassword = Encryption().decryptPassword(resultingAccount.password.encode()).decode()
-        
-        if decryptedAccountPassword != password:
+        if resultingAccount.password != password:
             messagebox.showwarning("Login Error", "Incorrect Password")
             return 
 

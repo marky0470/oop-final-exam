@@ -30,7 +30,7 @@ class EditAdminWindowController():
             FirstName=%s,
             LastName=%s,
             EmailAdd=%s,
-            Password=%s,
+            Password=%s
         WHERE
             UserID={self.account.userID}
         """
