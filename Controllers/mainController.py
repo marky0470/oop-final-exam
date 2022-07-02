@@ -20,14 +20,33 @@ class MainWindowController():
 
     def __init__(self):
         self.currentData : Account = None
+        self.dbConnection = connectMySQL()
+        self.dbCursor = self.dbConnection.cursor()
 
     def getRecords(self):
-        dbConnection = connectMySQL()
-        dbCursor = dbConnection.cursor()
-        dbCursor.execute("SELECT * FROM user where LastName != 'Admin'")
-        sqlResult = dbCursor.fetchall()
+        self.dbCursor.execute("SELECT * FROM user where LastName != 'Admin'")
+        sqlResult = self.dbCursor.fetchall()
 
         return sqlResult
+    
+    def searchUser(self, searchValue):
+        sql = f"""
+            SELECT * FROM user 
+            WHERE (
+                UserId LIKE '%{searchValue}%' OR 
+                FirstName LIKE '%{searchValue}%' OR 
+                LastName LIKE '%{searchValue}%' OR 
+                EmailAdd LIKE '%{searchValue}%'
+            ) AND (
+                LastName != 'Admin' OR
+                LastName != 'ADMIN' OR
+                LastName != 'admin'
+            )
+        """
+        self.dbCursor.execute(sql)
+        results = self.dbCursor.fetchall()
+        
+        return results
 
     def openEditWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()

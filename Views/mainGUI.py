@@ -1,7 +1,10 @@
 
+from re import M
+from turtle import width
 from Controllers.mainController import MainWindowController
 from constants import Constants
 from widgets.KButton import KButton
+from widgets.KEntry import KEntry
 from widgets.KTable import KTable
 from Model.account import Account
 
@@ -18,6 +21,8 @@ class MainGUI():
         self.setup()
         self.mainWindow.update()
 
+        self.searchTextVar = tkinter.StringVar()
+
         self.buttonWidth = self.mainWindow.winfo_width() * 0.13
         self.buttonHeight = self.mainWindow.winfo_height() * 0.06
 
@@ -33,12 +38,22 @@ class MainGUI():
         self.mainWindow.configure(background=Constants().windowBackgroundColor)
         self.mainWindow.resizable(False, False)
     
+    def __searchButtonCallback(self):
+        results = self.controller.searchUser(self.searchTextVar.get())
+        self.dataTable.data = results
+        self.dataTable.redraw()
+    
+    def __resetButtonCallback(self):
+        results = self.controller.getRecords()
+        self.dataTable.data = results
+        self.dataTable.redraw()
+    
     def setupHeader(self):
         self.headerFrame = tkinter.Frame(
             self.mainWindow,
             background='white',
             width=self.mainWindow.winfo_width(),
-            height=self.mainWindow.winfo_height() * 0.08,
+            height=self.mainWindow.winfo_height() * 0.1,
         )
 
         self.headerTextOne = tkinter.Label(
@@ -57,9 +72,47 @@ class MainGUI():
             background='white'
         )
 
-        self.headerTextOne.grid(column=0, row=0, pady=10, padx=10, sticky=tkinter.W)
+        self.searchContainer = tkinter.Frame(
+            self.headerFrame,
+            background='white',
+            height=self.mainWindow.winfo_height() * 0.08,
+        )
+
+        self.searchEntry = KEntry(
+            self.searchContainer,
+            background=Constants().entryBackgroundColor,
+            textvariable=self.searchTextVar,
+            type='text',
+            borderColor=Constants().entryBorderColor,
+            frameColor='white',
+            height=self.buttonHeight,
+            width=self.mainWindow.winfo_width() * 0.35
+        )
+
+        self.searchButton = KButton(
+            self.searchContainer,
+            text="Search",
+            background=Constants().creamButtonColor,
+            onHoverBackground=Constants().creamButtonAccentColor,
+            column=1,
+            row=1,
+            height=self.buttonHeight,
+            width=self.buttonWidth,
+            onClick=self.__searchButtonCallback,
+            textfill=Constants().creamButtonTextColor,
+        )
+
+        self.headerTextOne.grid(column=0, row=0, pady=10, padx=15, sticky=tkinter.W)
+        self.headerTextTwo.grid(column=4, row=0, pady=10, padx=15, sticky=tkinter.E)
+        
+        self.searchContainer.rowconfigure(0, weight=1)
+        self.searchContainer.rowconfigure(2, weight=1)
+        self.searchEntry.grid(column=0, row=1, sticky=tkinter.NSEW)
+        self.searchButton.grid(column=1, row=1, padx=10, sticky=tkinter.NSEW)
+        self.searchContainer.grid(column=2, row=0, sticky=tkinter.NSEW)
+
         self.headerFrame.columnconfigure(1, weight=1)
-        self.headerTextTwo.grid(column=2, row=0, pady=10, padx=10, sticky=tkinter.E)
+        self.headerFrame.columnconfigure(3, weight=1)
 
         self.headerFrame.grid(column=0, row=0, columnspan=2, sticky=tkinter.NSEW)
     
@@ -67,7 +120,7 @@ class MainGUI():
         self.navigationFrame = tkinter.Frame(
             self.mainWindow,
             background='white',
-            height=self.mainWindow.winfo_height(),
+            height=self.mainWindow.winfo_height() * 0.9,
             width=self.mainWindow.winfo_width() * 0.22
         )
         self.navigationFrame.update()
@@ -120,17 +173,19 @@ class MainGUI():
         self.contentFrame.grid(column=1, row=1, sticky=tkinter.NSEW)
 
     def setupButtons(self):
-        self.searchButton = KButton(
+        self.resetButton = KButton(
             self.contentFrame,
-            text="Search",
+            text="Reset Data",
             background=Constants().whiteButtonColor,
             onHoverBackground=Constants().whiteButtonAccentColor,
             column=1,
             row=0,
             height=self.buttonHeight,
             width=self.buttonWidth,
-            onClick=lambda : self.controller.openSearchWindow(self.mainWindow),
-            textfill=Constants().buttonAccentColor,
+            onClick=self.__resetButtonCallback,
+            textfill=Constants().creamButtonTextColor,
+            frameColor=Constants().creamButtonColor,
+            type='rounded'
         )
         self.editButton = KButton(
             self.contentFrame,
@@ -142,7 +197,8 @@ class MainGUI():
             height=self.buttonHeight,
             width=self.buttonWidth,
             onClick=lambda : self.controller.openEditWindow(self.mainWindow),
-            textfill=Constants().buttonAccentColor,
+            frameColor=Constants().creamButtonColor,
+            textfill=Constants().creamButtonTextColor,
         )
         self.deleteButton = KButton(
             self.contentFrame,
@@ -170,8 +226,8 @@ class MainGUI():
 
         self.editButton.grid(column=2, row=0, sticky=tkinter.W)
         self.deleteButton.grid(column=3, row=0, padx=10, sticky=tkinter.W)
-        self.searchButton.grid(column=1, row=0, padx=10, sticky=tkinter.EW)
-        self.addButton.grid(column=5, row=0, pady=10, padx=20, sticky=tkinter.E)
+        self.resetButton.grid(column=1, row=0, padx=10, sticky=tkinter.EW)
+        self.addButton.grid(column=5, row=0, padx=15, pady=10, sticky=tkinter.E)
 
     def setupTable(self):
         self.studentAccounts = self.controller.getRecords()

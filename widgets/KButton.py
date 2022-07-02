@@ -6,7 +6,7 @@ from engine import DrawingEngine
 
 class KButton(ttk.Frame):
 
-    def __init__(self, parent, text, background, onHoverBackground, column, row, onClick=None,columnspan=1, rowspan=1, textfill='white', type='rounded',*args, **kwargs):
+    def __init__(self, parent, text, background, onHoverBackground, column, row, onClick=None,columnspan=1, rowspan=1, textfill='white', type='rounded', frameColor='white', *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
         self.parent = parent
         self.text = text
@@ -19,6 +19,7 @@ class KButton(ttk.Frame):
         self.rowspan = rowspan
         self.textfill = textfill
         self.type = type
+        self.frameColor = frameColor
         self.cache = {}
 
         self.draw()
@@ -48,7 +49,7 @@ class KButton(ttk.Frame):
             self,
             height=self['height'],
             width=self['width'],
-            background="white",
+            background=self.frameColor,
             bd=0,
             highlightthickness=0,
             cursor="hand2",

@@ -78,4 +78,10 @@ class KTable(ttk.Frame):
     def draw(self):
         self.drawHeader()
         self.drawData()
+    
+    def redraw(self):
+        for child in self.winfo_children():
+            child.destroy()
+        self.rows = []
+        self.draw()
 
