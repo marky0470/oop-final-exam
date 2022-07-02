@@ -147,7 +147,7 @@ class AddGUI():
             text='Add',
             background=Constants().buttonColor,
             onHoverBackground=Constants().buttonAccentColor,
-            onClick=lambda : self.controller.addEntry(self.fNameTextVar.get(), self.lNameTextVar.get(), self.emailTextVar.get(), self.passwordTextVar.get()),
+            onClick=lambda : self.controller.addEntry(self.fNameTextVar.get(), self.lNameTextVar.get(), self.emailTextVar.get(), self.passwordTextVar.get(), self.addWindow),
             column=1,
             row=4,
             height=self.addWindow.winfo_height() * 0.08, 

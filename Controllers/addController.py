@@ -1,13 +1,15 @@
 
 from connection import connectMySQL
 from tkinter import messagebox
+from Views import mainGUI
+from Controllers import mainController
 
 class AddWindowController():
 
     def __init__(self):
         pass
 
-    def addEntry(self, fName, lName, email, password):
+    def addEntry(self, fName, lName, email, password, window):
         if "" in [fName, lName, email, password]:
             messagebox.showwarning("Error", "All entries must be filled in")
             return
@@ -24,4 +26,6 @@ class AddWindowController():
         sqlConnection.close()
 
         messagebox.showinfo("", f"Successfully added {fName} {lName} to the database")
+        window.destroy()
+        mainGUI.MainGUI(mainController.MainWindowController())
 
