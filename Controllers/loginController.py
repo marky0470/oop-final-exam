@@ -2,7 +2,7 @@
 from tkinter import messagebox
 import tkinter
 from Model.account import Account
-from connection import connection
+from connection import connectMySQL
 
 from Views.mainGUI import MainGUI
 from Controllers.mainController import MainWindowController
@@ -10,7 +10,8 @@ from Controllers.mainController import MainWindowController
 class LoginWindowController():
 
     def __init__(self):
-        self.dbCursor = connection.cursor()
+        self.dbConnection = connectMySQL()
+        self.dbCursor = self.dbConnection.cursor()
     
     def login(self, email : str, password : str, window: tkinter.Tk):
         sql = f"SELECT * FROM user WHERE EmailAdd='{email.strip()}'"
@@ -33,6 +34,7 @@ class LoginWindowController():
         localStorage = open('current.txt', 'w')
         localStorage.write('True')
         localStorage.close()
+        self.dbConnection.close()
         window.destroy()
         MainGUI(MainWindowController())
 

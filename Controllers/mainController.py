@@ -1,7 +1,9 @@
 
 import tkinter
+
+from pip import main
 from Model.account import Account
-from connection import connection
+from connection import connectMySQL
 
 from Views.editGUI import EditGUI
 from Views.addGUI import AddGUI
@@ -20,13 +22,14 @@ class MainWindowController():
         self.currentData : Account = None
 
     def getRecords(self):
-        dbCursor = connection.cursor()
+        dbConnection = connectMySQL()
+        dbCursor = dbConnection.cursor()
         dbCursor.execute("SELECT * FROM user")
         sqlResult = dbCursor.fetchall()
 
         #studentAccounts = list(map(lambda x : Account(x), sqlResult))
         return sqlResult
-    
+
     def openEditWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()
         EditGUI(EditWindowController())

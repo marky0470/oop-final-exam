@@ -3,7 +3,7 @@ from ast import Constant
 
 #from mysqlx import Row
 from Controllers.addController import AddWindowController
-import Views.mainGUI
+import Views.mainGUI as mainGUI
 
 from constants import Constants
 from widgets.KEntry import KEntry
@@ -68,7 +68,7 @@ class AddGUI():
         self.addFirstNameLabel = tkinter.Label(
             self.addFirstNameContainer,
             text="First Name",
-            font=("Century Gothic", 10),
+            font=(Constants().labelFont, 10),
             foreground="#000000",
             background=Constants().windowBackgroundColor
         )
@@ -84,7 +84,7 @@ class AddGUI():
         self.addLastNameLabel = tkinter.Label(
             self.addLastNameContainer,
             text="Last Name",
-            font=("Century Gothic", 10),
+            font=(Constants().labelFont, 10),
             foreground="#000000",
             background=Constants().windowBackgroundColor
         )
@@ -100,7 +100,7 @@ class AddGUI():
         self.addEmailLabel = tkinter.Label(
             self.addEmailContainer,
             text="Email",
-            font=("Century Gothic", 10),
+            font=(Constants().labelFont, 10),
             foreground="#000000",
             background=Constants().windowBackgroundColor
         )
@@ -116,7 +116,7 @@ class AddGUI():
         self.addPasswordLabel = tkinter.Label(
             self.addPasswordContainer,
             text="Password",
-            font=("Century Gothic", 10),
+            font=(Constants().labelFont, 10),
             foreground="#000000",
             background=Constants().windowBackgroundColor
         )
@@ -175,6 +175,6 @@ class AddGUI():
     
     def cancel(self):
         self.addWindow.destroy()
-        Views.mainGUI.MainGUI(Views.mainGUI.MainWindowController())
+        mainGUI.MainGUI(mainGUI.MainWindowController())
 
 
