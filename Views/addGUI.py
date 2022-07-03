@@ -155,10 +155,10 @@ class AddGUI():
         )
         self.cancelButton = KButton(
             self.buttonContainer,
-            text='Cancel',
+            text='Back',
             background=Constants().buttonColor,
             onHoverBackground=Constants().buttonAccentColor,
-            onClick=lambda : self.cancel(),
+            onClick=lambda : self.back(),
             column=0,
             row=4,
             
@@ -177,7 +177,7 @@ class AddGUI():
 
         self.form.place(relx=0.5, rely=0.5, anchor=tkinter.CENTER)
     
-    def cancel(self):
+    def back(self):
         self.addWindow.destroy()
         mainGUI.MainGUI(mainGUI.MainWindowController())
 

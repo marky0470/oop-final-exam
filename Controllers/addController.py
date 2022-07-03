@@ -1,8 +1,9 @@
-
+from email import message
 from connection import connectMySQL
 from tkinter import messagebox
 from Views import mainGUI
 from Controllers import mainController
+from utils.encryption import Encryption
 
 class AddWindowController():
 
@@ -14,18 +15,31 @@ class AddWindowController():
             messagebox.showwarning("Error", "All entries must be filled in")
             return
 
-        sqlConnection = connectMySQL()
-        sqlCommand = "INSERT INTO user (FirstName, LastName, EmailAdd, Password) VALUES (%s, %s, %s, %s)"
-        sqlValues = (fName, lName, email, password)
+        dbConnection = connectMySQL()
+        dbCursor = dbConnection.cursor()
 
-        sqlCursor = sqlConnection.cursor()
-        sqlCursor.execute(sqlCommand, sqlValues)
-        sqlConnection.commit()
+        if self.checkExistingEmail(email, dbCursor):
+            messagebox.showwarning("Error", "User with this email address already exists")
+            return
+    
+        sql = "INSERT INTO user (FirstName, LastName, EmailAdd, Password) VALUES (%s, %s, %s, %s)"
 
-        sqlCursor.close()
-        sqlConnection.close()
+        encryptedPassword = Encryption().encryptPassword(password)
 
-        messagebox.showinfo("", f"Successfully added {fName} {lName} to the database")
+        dbCursor.execute(sql, (fName, lName, email, encryptedPassword))
+        dbConnection.commit()
+
+        dbCursor.close()
+        dbConnection.close()
+
+        messagebox.showinfo("Success", f"Successfully added {fName} {lName} to the database")
         window.destroy()
         mainGUI.MainGUI(mainController.MainWindowController())
 
+
+    def checkExistingEmail(self, email, cursor):
+        sql = f"SELECT * FROM user WHERE EmailAdd='{email.strip()}'"
+        cursor.execute(sql)
+        result = cursor.fetchone()
+        return True if result else False
+        

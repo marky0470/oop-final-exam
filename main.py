@@ -19,6 +19,7 @@ def withAdminAccount():
     dbCursor = dbConnection.cursor()
     dbCursor.execute("SELECT * FROM user WHERE LastName='Admin' or LastName='admin' or LastName='ADMIN'")
     result = dbCursor.fetchone()
+    dbConnection.close()
     return result != None
 
 if __name__ == "__main__":
