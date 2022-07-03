@@ -23,5 +23,5 @@ class AddWindowController():
         sqlCursor.close()
         sqlConnection.close()
 
-        messagebox.showinfo("", f"Successfully added {fName} {lName} to the database")
+        messagebox.showinfo("Success", f"Successfully added {fName} {lName} to the database")
 
