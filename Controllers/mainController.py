@@ -1,7 +1,8 @@
 
 import tkinter
+from Views import loginGUI
+from Controllers import loginController
 
-from pip import main
 from Model.account import Account
 from connection import connectMySQL
 
@@ -14,7 +15,6 @@ from Controllers.editController import EditWindowController
 from Controllers.addController import AddWindowController
 from Controllers.deleteController import DeleteWindowController
 from Controllers.searchController import SearchWindowController
-#from Model.account import Account
 
 class MainWindowController():
 
@@ -27,7 +27,6 @@ class MainWindowController():
         dbCursor.execute("SELECT * FROM user where LastName != 'Admin'")
         sqlResult = dbCursor.fetchall()
 
-        #studentAccounts = list(map(lambda x : Account(x), sqlResult))
         return sqlResult
 
     def openEditWindow(self, mainWindow : tkinter.Tk):
@@ -51,3 +50,4 @@ class MainWindowController():
         localStorage.write('False')
         localStorage.close()
         mainGUI.mainWindow.destroy()
+        loginGUI.LoginGUI(loginController.LoginWindowController())

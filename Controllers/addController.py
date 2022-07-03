@@ -1,7 +1,8 @@
 from email import message
 from connection import connectMySQL
 from tkinter import messagebox
-import Views.addGUI
+from Views import mainGUI
+from Controllers import mainController
 from utils.encryption import Encryption
 
 class AddWindowController():
@@ -9,7 +10,7 @@ class AddWindowController():
     def __init__(self):
         pass
 
-    def addEntry(self, fName, lName, email, password):
+    def addEntry(self, fName, lName, email, password, window):
         if "" in [fName, lName, email, password]:
             messagebox.showwarning("Error", "All entries must be filled in")
             return
@@ -32,15 +33,13 @@ class AddWindowController():
         dbConnection.close()
 
         messagebox.showinfo("Success", f"Successfully added {fName} {lName} to the database")
+        window.destroy()
+        mainGUI.MainGUI(mainController.MainWindowController())
+
 
     def checkExistingEmail(self, email, cursor):
         sql = f"SELECT * FROM user WHERE EmailAdd='{email.strip()}'"
         cursor.execute(sql)
         result = cursor.fetchone()
         return True if result else False
-
-
-
-
-
-
+        

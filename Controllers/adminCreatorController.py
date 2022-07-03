@@ -29,6 +29,7 @@ class AdminCreatorWindowController():
         except mysqlx.IntegrityError:
             messagebox.showerror('Registration', 'There was a problem in the registration. Please try again later.')
         finally:
+            self.dbConnection.close()
             messagebox.showinfo('Registration Success', 'Admin Account successfully created.')
     
     def inconsistentPasswords(self, password, confirm):
