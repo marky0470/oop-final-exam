@@ -1,5 +1,6 @@
 
 import tkinter
+from tkinter import messagebox
 from tkinter.messagebox import askyesno
 from Controllers.editAdminController import EditAdminWindowController
 from Views import loginGUI
@@ -90,10 +91,14 @@ class MainWindowController():
         mainWindow.destroy()
         AddGUI(AddWindowController())
 
-    def openDeleteWindow(self, mainWindow : tkinter.Tk):
+    def openDeleteWindow(self, mainWindow : tkinter.Tk, user):
+        if user == None:
+            messagebox.showerror("Error", "A user must be selected for this operation")
+            return
         mainWindow.destroy()
-        DeleteGUI(DeleteWindowController())
+        DeleteGUI(DeleteWindowController(), user)
     
+
     def logout(self, mainGUI):
         localStorage = open('current.txt', 'w')
         localStorage.write('False')

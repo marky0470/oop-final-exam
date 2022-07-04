@@ -256,7 +256,7 @@ class MainGUI():
             row=0,
             height=self.buttonHeight,
             width=self.buttonWidth,
-            onClick=lambda : self.controller.openDeleteWindow(self.mainWindow)
+            onClick=lambda : self.controller.openDeleteWindow(self.mainWindow, self.dataTable.currentData)
         )
         
         self.addButton = KButton(
