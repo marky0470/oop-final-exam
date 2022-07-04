@@ -7,7 +7,7 @@ from engine import DrawingEngine
 
 class KEntry(tkinter.Frame):
 
-    def __init__(self, parent, background, textvariable, type, state='normal', borderColor='gray', *args, **kwargs):
+    def __init__(self, parent, background, textvariable, type, state='normal', frameColor=Constants().windowBackgroundColor,borderColor='gray', *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
         self.background = background
@@ -15,13 +15,14 @@ class KEntry(tkinter.Frame):
         self.type = type
         self.state = state
         self.border = borderColor
+        self.frameColor = frameColor
 
         self.draw()
     
     def draw(self):
         self.canvas = tkinter.Canvas(
             self,
-            background=Constants().windowBackgroundColor,
+            background=self.frameColor,
             height=self['height'],
             width=self['width'],
             bd=0,

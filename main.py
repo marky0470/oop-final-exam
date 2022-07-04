@@ -1,12 +1,12 @@
 
 import sys
 
-from Views.loginGUI import LoginGUI
+from Views import loginGUI
 from Views.mainGUI import MainGUI 
-from Views import adminCreatorGUI
-from Controllers.loginController import LoginWindowController
+# from Views import adminCreatorGUI
+from Controllers import loginController
 from Controllers.mainController import MainWindowController
-from Controllers.adminCreatorController import AdminCreatorWindowController
+# from Controllers.adminCreatorController import AdminCreatorWindowController
 
 from connection import connectMySQL
 
@@ -23,13 +23,13 @@ def withAdminAccount():
     return result != None
 
 if __name__ == "__main__":
-    if not withAdminAccount():
-        adminCreatorGUI.AdminCreatorGUI(AdminCreatorWindowController())
-        sys.exit()
+    # if not withAdminAccount():
+    #     adminCreatorGUI.AdminCreatorGUI(AdminCreatorWindowController())
+    #     sys.exit()
 
     if isLoggedIn():
         MainGUI(MainWindowController())
         sys.exit()
 
-    LoginGUI(LoginWindowController())
+    loginGUI.LoginGUI(loginController.LoginWindowController())
     sys.exit()

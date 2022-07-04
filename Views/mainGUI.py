@@ -2,6 +2,7 @@
 from Controllers.mainController import MainWindowController
 from constants import Constants
 from widgets.KButton import KButton
+from widgets.KEntry import KEntry
 from widgets.KTable import KTable
 from Model.account import Account
 
@@ -14,9 +15,12 @@ class MainGUI():
         self.controller = controller
         self.loginGUI = loginGUI
         self.loginController= loginController
+        self.loggedInAccount = self.controller.getLoggedInAccount()
 
         self.setup()
         self.mainWindow.update()
+
+        self.searchTextVar = tkinter.StringVar()
 
         self.buttonWidth = self.mainWindow.winfo_width() * 0.13
         self.buttonHeight = self.mainWindow.winfo_height() * 0.06
@@ -33,12 +37,22 @@ class MainGUI():
         self.mainWindow.configure(background=Constants().windowBackgroundColor)
         self.mainWindow.resizable(False, False)
     
+    def __searchButtonCallback(self):
+        results = self.controller.searchUser(self.searchTextVar)
+        self.dataTable.data = results
+        self.dataTable.redraw()
+    
+    def __resetButtonCallback(self):
+        results = self.controller.getRecords()
+        self.dataTable.data = results
+        self.dataTable.redraw()
+    
     def setupHeader(self):
         self.headerFrame = tkinter.Frame(
             self.mainWindow,
             background='white',
             width=self.mainWindow.winfo_width(),
-            height=self.mainWindow.winfo_height() * 0.08,
+            height=self.mainWindow.winfo_height() * 0.1,
         )
 
         self.headerTextOne = tkinter.Label(
@@ -49,17 +63,55 @@ class MainGUI():
             background='white'
         )
 
-        self.headerTextTwo = tkinter.Label(
+        # self.headerTextTwo = tkinter.Label(
+        #     self.headerFrame,
+        #     text='Group 9',
+        #     font=('Century Gothic Bold', 14),
+        #     foreground=Constants().buttonColor,
+        #     background='white'
+        # )
+
+        self.searchContainer = tkinter.Frame(
             self.headerFrame,
-            text='Group 9',
-            font=('Century Gothic Bold', 14),
-            foreground=Constants().buttonColor,
-            background='white'
+            background='white',
+            height=self.mainWindow.winfo_height() * 0.08,
         )
 
-        self.headerTextOne.grid(column=0, row=0, pady=10, padx=10, sticky=tkinter.W)
+        self.searchEntry = KEntry(
+            self.searchContainer,
+            background=Constants().entryBackgroundColor,
+            textvariable=self.searchTextVar,
+            type='text',
+            borderColor=Constants().entryBorderColor,
+            frameColor='white',
+            height=self.buttonHeight,
+            width=self.mainWindow.winfo_width() * 0.35
+        )
+
+        self.searchButton = KButton(
+            self.searchContainer,
+            text="Search",
+            background=Constants().creamButtonColor,
+            onHoverBackground=Constants().creamButtonAccentColor,
+            column=1,
+            row=1,
+            height=self.buttonHeight,
+            width=self.buttonWidth,
+            onClick=self.__searchButtonCallback,
+            textfill=Constants().creamButtonTextColor,
+        )
+
+        self.headerTextOne.grid(column=0, row=0, pady=10, padx=15, sticky=tkinter.W)
+        # self.headerTextTwo.grid(column=4, row=0, pady=10, padx=15, sticky=tkinter.E)
+        
+        self.searchContainer.rowconfigure(0, weight=1)
+        self.searchContainer.rowconfigure(2, weight=1)
+        self.searchEntry.grid(column=0, row=1, sticky=tkinter.NSEW)
+        self.searchButton.grid(column=1, row=1, padx=15, sticky=tkinter.NSEW)
+        self.searchContainer.grid(column=2, row=0, sticky=tkinter.NSEW)
+
         self.headerFrame.columnconfigure(1, weight=1)
-        self.headerTextTwo.grid(column=2, row=0, pady=10, padx=10, sticky=tkinter.E)
+        self.headerFrame.columnconfigure(1, weight=1)
 
         self.headerFrame.grid(column=0, row=0, columnspan=2, sticky=tkinter.NSEW)
     
@@ -67,10 +119,17 @@ class MainGUI():
         self.navigationFrame = tkinter.Frame(
             self.mainWindow,
             background='white',
-            height=self.mainWindow.winfo_height(),
+            height=self.mainWindow.winfo_height() * 0.9,
             width=self.mainWindow.winfo_width() * 0.22
         )
         self.navigationFrame.update()
+        self.emailLabel = tkinter.Label(
+            self.navigationFrame,
+            text=self.loggedInAccount.emailAddress,
+            background='white',
+            font=(Constants().labelFont, 11),
+            foreground=Constants().creamButtonTextColor
+        )
         self.homeButton = KButton(
             self.navigationFrame,
             text="Home",
@@ -83,10 +142,10 @@ class MainGUI():
             type='rect',
             textfill=Constants().creamButtonTextColor
         )
-        self.logoutButton = KButton(
+        self.createAdminButton = KButton(
             self.navigationFrame,
-            text="Logout",
-            background='white',
+            text="Create New Admin",
+            background=Constants().whiteButtonColor,
             onHoverBackground=Constants().creamButtonColor,
             column=0,
             row=2,
@@ -94,10 +153,51 @@ class MainGUI():
             width=self.mainWindow.winfo_width() * 0.22,
             type='rect',
             textfill=Constants().creamButtonTextColor,
+            onClick=lambda : self.controller.openAddAdminWindow(self.mainWindow)
+        )
+        self.editAccountButton = KButton(
+            self.navigationFrame,
+            text="Edit Admin Account",
+            background=Constants().whiteButtonColor,
+            onHoverBackground=Constants().creamButtonColor,
+            column=0,
+            row=3,
+            height=self.mainWindow.winfo_height() * 0.07,
+            width=self.mainWindow.winfo_width() * 0.22,
+            type='rect',
+            textfill=Constants().creamButtonTextColor,
+            onClick=lambda : self.controller.openEditAdminWindow(self.mainWindow)
+        )
+        self.deleteThisAccountButton = KButton(
+            self.navigationFrame,
+            text="Delete Admin Account",
+            background=Constants().whiteButtonColor,
+            onHoverBackground=Constants().creamButtonColor,
+            column=0,
+            row=4,
+            height=self.mainWindow.winfo_height() * 0.07,
+            width=self.mainWindow.winfo_width() * 0.22,
+            type='rect',
+            textfill=Constants().creamButtonTextColor,
+            onClick=lambda: self.controller.deleteThisAdminAccount(self)
+        )
+        self.logoutButton = KButton(
+            self.navigationFrame,
+            text="Logout",
+            background='white',
+            onHoverBackground=Constants().creamButtonColor,
+            column=0,
+            row=6,
+            height=self.mainWindow.winfo_height() * 0.07,
+            width=self.mainWindow.winfo_width() * 0.22,
+            type='rect',
+            textfill=Constants().creamButtonTextColor,
             onClick=lambda : self.controller.logout(self)
         )
 
+        self.emailLabel.grid(column=0, row=0, pady=20, sticky=tkinter.EW)
         self.navigationFrame.grid(column=0, row=1, sticky=tkinter.NSEW)
+        self.navigationFrame.rowconfigure(5, weight=1)
 
     def setupContent(self):
         self.contentFrame = tkinter.Frame(
@@ -120,17 +220,19 @@ class MainGUI():
         self.contentFrame.grid(column=1, row=1, sticky=tkinter.NSEW)
 
     def setupButtons(self):
-        self.searchButton = KButton(
+        self.refreshButton = KButton(
             self.contentFrame,
-            text="Search",
+            text="Refresh",
             background=Constants().whiteButtonColor,
             onHoverBackground=Constants().whiteButtonAccentColor,
             column=1,
             row=0,
             height=self.buttonHeight,
             width=self.buttonWidth,
-            onClick=lambda : self.controller.openSearchWindow(self.mainWindow),
-            textfill=Constants().buttonAccentColor,
+            onClick=self.__resetButtonCallback,
+            textfill=Constants().creamButtonTextColor,
+            frameColor=Constants().creamButtonColor,
+            type='rounded'
         )
         self.editButton = KButton(
             self.contentFrame,
@@ -142,7 +244,8 @@ class MainGUI():
             height=self.buttonHeight,
             width=self.buttonWidth,
             onClick=lambda : self.controller.openEditWindow(self.mainWindow),
-            textfill=Constants().buttonAccentColor,
+            frameColor=Constants().creamButtonColor,
+            textfill=Constants().creamButtonTextColor,
         )
         self.deleteButton = KButton(
             self.contentFrame,
@@ -170,8 +273,8 @@ class MainGUI():
 
         self.editButton.grid(column=2, row=0, sticky=tkinter.W)
         self.deleteButton.grid(column=3, row=0, padx=10, sticky=tkinter.W)
-        self.searchButton.grid(column=1, row=0, padx=10, sticky=tkinter.EW)
-        self.addButton.grid(column=5, row=0, pady=10, padx=20, sticky=tkinter.E)
+        self.refreshButton.grid(column=1, row=0, padx=10, sticky=tkinter.EW)
+        self.addButton.grid(column=5, row=0, padx=15, pady=10, sticky=tkinter.E)
 
     def setupTable(self):
         self.studentAccounts = self.controller.getRecords()

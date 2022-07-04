@@ -1,15 +1,15 @@
 
 import tkinter
+from Controllers.addAdminController import AddAdminWindowController
 
 from widgets.KEntry import KEntry
 from widgets.KButton import KButton
-from Controllers.adminCreatorController import AdminCreatorWindowController
 from constants import Constants
 
 
-class AdminCreatorGUI():
+class AddAdminGUI():
 
-    def __init__(self, controller : AdminCreatorWindowController):
+    def __init__(self, controller : AddAdminWindowController):
         self.controller = controller
 
         self.setupWindow()
@@ -28,7 +28,7 @@ class AdminCreatorGUI():
     
     def setupWindow(self):
         self.rootWindow = tkinter.Tk()
-        self.rootWindow.title('Admin Creator GUI')
+        self.rootWindow.title('Create new Admin')
         self.rootWindow.geometry('350x530')
         self.rootWindow.configure(background=Constants().windowBackgroundColor)
         self.rootWindow.resizable(False, False)
@@ -48,7 +48,7 @@ class AdminCreatorGUI():
         )
         self.headerText2 = tkinter.Label(
             self.headerFrame,
-            text='Create an Admin Account',
+            text='Create new Admin Account',
             font=('Century Gothic', 10),
             justify='left',
             foreground=Constants().buttonAccentColor,
@@ -204,20 +204,33 @@ class AdminCreatorGUI():
             self.rootWindow,
             background=Constants().windowBackgroundColor
         )
+        self.cancelButton = KButton(
+            self.buttonsFrame,
+            text='Cancel',
+            background=Constants().windowBackgroundColor,
+            onHoverBackground=Constants().windowBackgroundColor,
+            height=self.rootWindow.winfo_height() * 0.07,
+            width=self.rootWindow.winfo_width() * 0.3,
+            column=0,
+            row=0,
+            textfill='red',
+            onClick=lambda : self.controller.cancelCreation(self.rootWindow)
+        )
         self.createButton = KButton(
             self.buttonsFrame,
             text='Create Account',
             background=Constants().buttonColor,
             onHoverBackground=Constants().buttonAccentColor,
             height=self.rootWindow.winfo_height() * 0.07,
-            width=self.rootWindow.winfo_width() * 0.8,
+            width=self.rootWindow.winfo_width() * 0.5,
             column=1,
             row=0,
             onClick=lambda : self.controller.createAdminAccount(data=self.__getData(), window=self.rootWindow)
         )
 
+        self.cancelButton.grid(column=0, row=0, sticky=tkinter.W)
         self.createButton.grid(column=1, row=0, padx=10, sticky=tkinter.E)
-        self.buttonsFrame.grid(column=0, row=6, padx=25, pady=30, sticky=tkinter.NSEW)
+        self.buttonsFrame.grid(column=0, row=6, padx=25, pady=20, sticky=tkinter.NSEW)
         
     def setupForm(self):
         self.setupFirstNameField()

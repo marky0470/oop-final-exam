@@ -1,6 +1,5 @@
 
 from tkinter import messagebox
-import tkinter
 from Model.account import Account
 from connection import connectMySQL
 
@@ -8,12 +7,18 @@ from Views.mainGUI import MainGUI
 from Controllers.mainController import MainWindowController
 from utils.encryption import Encryption
 
+
 class LoginWindowController():
 
     def __init__(self):
         self.dbConnection = connectMySQL()
-        self.dbCursor = self.dbConnection.cursor()
+        self.dbCursor = self.dbConnection.cursor(buffered=True)
     
+    def withAdminAccount(self):
+        self.dbCursor.execute("SELECT * FROM user WHERE LastName='Admin' or LastName='admin' or LastName='ADMIN'")
+        result = self.dbCursor.fetchone()
+        return result != None
+
     def login(self, email : str, password : str, window):
         sql = f"SELECT * FROM user WHERE EmailAdd='{email.strip()}'"
         self.dbCursor.execute(sql)
@@ -24,9 +29,7 @@ class LoginWindowController():
             messagebox.showwarning("Login Error", "Account not Found")
             return
         
-        decryptedAccountPassword = Encryption().decryptPassword(resultingAccount.password.encode()).decode()
-        
-        if decryptedAccountPassword != password:
+        if resultingAccount.password != password:
             messagebox.showwarning("Login Error", "Incorrect Password")
             return 
 
@@ -35,11 +38,11 @@ class LoginWindowController():
             return
 
         localStorage = open('current.txt', 'w')
-        localStorage.write('True')
+        localStorage.write(f'True {resultingAccount.userID}')
         localStorage.close()
         
         self.dbConnection.close()
         window.loginWindow.destroy()
-        MainGUI(MainWindowController(), loginGUI=window, loginController=LoginWindowController)
+        MainGUI(MainWindowController())
 
 
