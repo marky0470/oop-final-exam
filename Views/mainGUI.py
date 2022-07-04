@@ -243,7 +243,7 @@ class MainGUI():
             row=0,
             height=self.buttonHeight,
             width=self.buttonWidth,
-            onClick=lambda : self.controller.openEditWindow(self.mainWindow),
+            onClick=lambda : self.controller.openEditWindow(self.mainWindow, self.dataTable.currentData),
             frameColor=Constants().creamButtonColor,
             textfill=Constants().creamButtonTextColor,
         )

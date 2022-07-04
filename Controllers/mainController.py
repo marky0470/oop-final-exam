@@ -83,9 +83,9 @@ class MainWindowController():
         mainWindow.destroy()
         EditAdminGUI(EditAdminWindowController(self.loggedInAccount))
 
-    def openEditWindow(self, mainWindow : tkinter.Tk):
+    def openEditWindow(self, mainWindow : tkinter.Tk, user):
         mainWindow.destroy()
-        EditGUI(EditWindowController())
+        EditGUI(EditWindowController(user))
 
     def openAddWindow(self, mainWindow : tkinter.Tk):
         mainWindow.destroy()
