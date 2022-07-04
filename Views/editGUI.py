@@ -16,11 +16,6 @@ class EditGUI():
     def __init__(self, controller : EditWindowController):
         self.controller = controller
 
-        if self.controller.account == None:
-            messagebox.showerror("No user selected", "Please select a user before using this feature")
-            mainGUI.MainGUI(mainController.MainWindowController())
-            return
-
         self.setupWindow()
         self.rootWindow.update()
 

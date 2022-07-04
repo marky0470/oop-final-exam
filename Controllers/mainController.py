@@ -84,6 +84,9 @@ class MainWindowController():
         EditAdminGUI(EditAdminWindowController(self.loggedInAccount))
 
     def openEditWindow(self, mainWindow : tkinter.Tk, user):
+        if user == None:
+            messagebox.showerror("Error", "A user must be selected for this operation")
+            return
         mainWindow.destroy()
         EditGUI(EditWindowController(user))
 
